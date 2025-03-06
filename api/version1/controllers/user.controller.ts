@@ -134,14 +134,14 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
     }
 };
 
-// export const detail = async (req: Request, res: Response): Promise<void> => {
-//     try {
-//         res.status(200).json({ code: 200, message: "Thành công", info: req.user });
-//     } catch (error) {
-//         console.error("Lỗi", error);
-//         res.status(500).json({ success: false, message: "Đã xảy ra lỗi" });
-//     }
-// };
+export const detail = async (req: Request, res: Response): Promise<void> => {
+    try {
+        res.status(200).json({ code: 200, message: "Thành công", info: req["user"] });
+    } catch (error) {
+        console.error("Lỗi", error);
+        res.status(500).json({ success: false, message: "Đã xảy ra lỗi" });
+    }
+};
 
 export const list = async (req: Request, res: Response): Promise<void> => {
     try {

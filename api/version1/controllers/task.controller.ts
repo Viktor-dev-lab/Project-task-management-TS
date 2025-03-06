@@ -79,13 +79,18 @@ export const changeStatus = async (req: Request, res: Response) => {
 // [PATCH] api/v1/tasks/change-multi
 export const changeMulti = async (req: Request, res: Response) => {
   try {
+    enum Status {
+      TRANG_THAI = 'status',
+      XOA = 'delete',
+    } 
+
     const { ids, key, value } = req.body;
     switch (key) {
-      case "status":
+      case (Status.TRANG_THAI):
         await Task.updateMany({ _id: { $in: ids } }, { status: value });
         res.json({ code: 200, message: "Cập nhật trạng thái thành công !" });
         break;
-      case "delete":
+      case (Status.XOA):
         await Task.updateMany(
           { _id: { $in: ids } },
           { deleted: true, deletedAt: new Date() }
@@ -102,16 +107,16 @@ export const changeMulti = async (req: Request, res: Response) => {
 };
 
 // [POST] api/v1/tasks/create
-// export const create = async (req: Request, res: Response) => {
-//   try {
-//     req.body.createdBy = req.user.id;
-//     const task = new Task(req.body);
-//     const data = await task.save();
-//     res.json({ code: 200, message: "Tạo thành công", data });
-//   } catch (err) {
-//     res.json({ code: 400, message: "Lỗi" });
-//   }
-// };
+export const create = async (req: Request, res: Response) => {
+  try {
+    // req.body.createdBy = req.user.id;
+    const task = new Task(req.body);
+    const data = await task.save();
+    res.json({ code: 200, message: "Tạo thành công", data });
+  } catch (err) {
+    res.json({ code: 400, message: "Lỗi" });
+  }
+};
 
 // [PATCH] api/v1/tasks/edit/:id
 export const edit = async (req: Request, res: Response) => {
